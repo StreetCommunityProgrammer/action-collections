@@ -1,0 +1,38 @@
+{
+  "name": "action-collections",
+  "version": "1.0.0",
+  "description": "SCP Action Collections",
+  "main": "index.js",
+  "scripts": {
+    "build": "ncc build metaphor-action/index.js -o metaphor-action/dist",
+    "prepare": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StreetCommunityProgrammer/action-collections.git"
+  },
+  "keywords": [
+    "sharing",
+    "blogging",
+    "freestyle",
+    "programming",
+    "metaphor"
+  ],
+  "author": "Imam Ali Mustofa <d.darkterminal@gmail.com> (https://bettadevindonesia.com)",
+  "license": "GPL-3.0-only",
+  "bugs": {
+    "url": "https://github.com/StreetCommunityProgrammer/action-collections/issues"
+  },
+  "homepage": "https://github.com/StreetCommunityProgrammer/action-collections#readme",
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "@actions/github": "^5.1.1",
+    "js-base64": "^3.7.5",
+    "replace-in-file": "^6.3.5"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.36.1",
+    "commitizen": "^4.3.0",
+    "husky": "^8.0.3"
+  }
+}
