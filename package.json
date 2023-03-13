@@ -31,8 +31,13 @@
     "replace-in-file": "^6.3.5"
   },
   "devDependencies": {
+    "@semantic-release/commit-analyzer": "^9.0.2",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^8.0.7",
+    "@semantic-release/release-notes-generator": "^10.0.3",
     "@vercel/ncc": "^0.36.1",
     "commitizen": "^4.3.0",
-    "husky": "^8.0.3"
+    "husky": "^8.0.3",
+    "semantic-release": "^20.1.1"
   }
 }
