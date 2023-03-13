@@ -1,7 +1,7 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const greetingContributor = require('../../scripts/greetingContributor');
-const storyGenerator = require('../../scripts/storyGenerator');
+const greetingContributor = require('./scripts/greetingContributor');
+const storyGenerator = require('./scripts/storyGenerator');
 
 (async () => {
   try {
