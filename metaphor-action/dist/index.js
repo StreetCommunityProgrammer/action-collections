@@ -65,7 +65,7 @@ const { ghBotUsername, ghBotEmail } = __nccwpck_require__(2572);
  * @returns {Promise} A Promise that resolves when the metaphor file has been created in the GitHub repository.
  */
 async function createMetaphorFile(issueData, context, category) {
-  const templateFilePath = process.cwd() + '/scripts/templates/stories.txt';
+  const templateFilePath = 'templates/stories.txt';
   const metaphorTitle = slugify(issueData.title);
 
   const contentValues = [
