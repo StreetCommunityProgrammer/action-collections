@@ -14,7 +14,7 @@ const { ghBotUsername, ghBotEmail } = require('./utils/git');
  * @returns {Promise} A Promise that resolves when the metaphor file has been created in the GitHub repository.
  */
 async function createMetaphorFile(issueData, context, category) {
-  const templateFilePath = 'templates/stories.txt';
+  const templateFilePath = './templates/stories.txt';
   const metaphorTitle = slugify(issueData.title);
 
   const contentValues = [
