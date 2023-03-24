@@ -59,12 +59,13 @@ const { ghBotUsername, ghBotEmail } = __nccwpck_require__(2572);
  * Creates a new metaphor file in the specified category, based on the provided issue data and context.
  * @async
  * @function createMetaphorFile
+ * @param {Object} client - The client object containing information about the GitHub repository and issue, including owner, repo, and issue number.
  * @param {Object} issueData - The issue data object containing information about the issue, including title, user, created date, and body content.
  * @param {Object} context - The context object containing information about the GitHub repository and issue, including owner, repo, and issue number.
  * @param {string} category - The category of the metaphor file to create.
  * @returns {Promise} A Promise that resolves when the metaphor file has been created in the GitHub repository.
  */
-async function createMetaphorFile(issueData, context, category) {
+async function createMetaphorFile(client, issueData, context, category) {
   const metaphorTitle = slugify(issueData.title);
 
   const contentValues = [
@@ -92,6 +93,7 @@ language: {language}
 
   const metaphorContent = Base64.encode(issueData.body);
   const createContent = await createFileContent({
+    client: client,
     owner: context.issue.owner,
     repo: context.issue.repo,
     path: `_stories/${category}/${metaphorTitle}.md`,
@@ -114,7 +116,7 @@ language: {language}
  * @param {string} options.content - The content of the file to create/update, encoded in base64.
  * @returns {Promise<Object>} A Promise that resolves with the metadata for the created/updated file.
  */
-async function createFileContent({ owner, repo, path, message, content }) {
+async function createFileContent({ client, owner, repo, path, message, content }) {
   const fileContent = Base64.decode(content);
   return await client.rest.repos.createOrUpdateFileContents({
     owner,
@@ -160,37 +162,37 @@ module.exports = async (client, context) => {
 
       if (isCssMetaphor) {
         console.log(`Is css metaphor`)
-        createMetaphorFile(issueData, context, 'css')
+        createMetaphorFile(client, issueData, context, 'css')
       } else if (isGoMetaphor) {
         console.log(`Is go metaphor`)
-        createMetaphorFile(issueData, context, 'go')
+        createMetaphorFile(client, issueData, context, 'go')
       } else if (isJavaScriptMetaphor) {
         console.log(`Is javascript metaphor`)
-        createMetaphorFile(issueData, context, 'javascript')
+        createMetaphorFile(client, issueData, context, 'javascript')
       } else if (isJavaMetaphor) {
         console.log(`Is java metaphor`)
-        createMetaphorFile(issueData, context, 'java')
+        createMetaphorFile(client, issueData, context, 'java')
       } else if (isMathsMetaphor) {
         console.log(`Is maths metaphor`)
-        createMetaphorFile(issueData, context, 'maths')
+        createMetaphorFile(client, issueData, context, 'maths')
       } else if (isPythonMetaphor) {
         console.log(`Is python metaphor`)
-        createMetaphorFile(issueData, context, 'python')
+        createMetaphorFile(client, issueData, context, 'python')
       } else if (isPhpMetaphor) {
         console.log(`Is php metaphor`)
-        createMetaphorFile(issueData, context, 'php')
+        createMetaphorFile(client, issueData, context, 'php')
       } else if (isPhysicsMetaphor) {
         console.log(`Is physics metaphor`)
-        createMetaphorFile(issueData, context, 'physics')
+        createMetaphorFile(client, issueData, context, 'physics')
       } else if (isRubyMetaphor) {
         console.log(`Is ruby metaphor`)
-        createMetaphorFile(issueData, context, 'ruby')
+        createMetaphorFile(client, issueData, context, 'ruby')
       } else if (isRustMetaphor) {
         console.log(`Is rust metaphor`)
-        createMetaphorFile(issueData, context, 'rust')
+        createMetaphorFile(client, issueData, context, 'rust')
       } else if (isZigMetaphor) {
         console.log(`Is zig metaphor`)
-        createMetaphorFile(issueData, context, 'zig')
+        createMetaphorFile(client, issueData, context, 'zig')
       }
     }
   } catch (error) {
