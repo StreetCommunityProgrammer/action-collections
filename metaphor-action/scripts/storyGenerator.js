@@ -1,6 +1,4 @@
 const { Base64 } = require('js-base64');
-const replace = require('replace-in-file');
-const { promises: fsPromises } = require('fs');
 const slugify = require('./utils/slugify');
 const { ghBotUsername, ghBotEmail } = require('./utils/git');
 
@@ -40,7 +38,7 @@ language: {language}
   }, storyTemplate);
   console.log('Replacement result: ' + JSON.stringify(replacementResult, undefined, 2))
 
-  const metaphorContent = Base64.encode(issueData.body);
+  const metaphorContent = Buffer.from(issueData.body).toString('base64');
   const createContent = await createFileContent({
     client: client,
     owner: context.issue.owner,
@@ -66,13 +64,12 @@ language: {language}
  * @returns {Promise<Object>} A Promise that resolves with the metadata for the created/updated file.
  */
 async function createFileContent({ client, owner, repo, path, message, content }) {
-  const fileContent = Base64.decode(content);
   return await client.rest.repos.createOrUpdateFileContents({
     owner,
     repo,
     path,
     message,
-    content: fileContent,
+    content,
     committer: {
       name: ghBotUsername,
       email: ghBotEmail
