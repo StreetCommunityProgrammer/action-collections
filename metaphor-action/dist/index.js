@@ -65,15 +65,7 @@ const { ghBotUsername, ghBotEmail } = __nccwpck_require__(2572);
 async function createMetaphorFile(client, issueData, context, category) {
   const metaphorTitle = slugify(issueData.title);
 
-  const contentValues = [
-    issueData.title,
-    issueData.user.login,
-    issueData.created_at,
-    category,
-    issueData.body,
-  ];
-
-  const storyTemplate = `---
+  const template = `---
 layout: post
 title: {title}
 author: {author}
@@ -83,12 +75,20 @@ language: {language}
 
 {content}`;
 
-  const replacementResult = contentValues.reduce((storyTemplate, placeholder, index) => {
-    return storyTemplate.replace(new RegExp(placeholder, 'g'), contentValues[index]);
-  }, storyTemplate);
-  console.log(contentValues);
-  console.log(storyTemplate);
-  console.log(replacementResult);
+  const placeholders = ['{title}', '{author}', '{created_at}', '{language}', '{content}'];
+  const values = [
+    issueData.title,
+    issueData.user.login,
+    issueData.created_at,
+    category,
+    issueData.body,
+  ];
+
+  const replacedTemplate = placeholders.reduce((template, placeholder, index) => {
+    return template.replace(new RegExp(placeholder, 'g'), values[index]);
+  }, template);
+
+  console.log(replacedTemplate);
   return 0;
   console.log('Replacement result: ' + JSON.stringify(replacementResult, undefined, 2))
 
