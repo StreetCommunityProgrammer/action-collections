@@ -146,7 +146,7 @@ module.exports = async (client, context) => {
 
       // Metaphor Categories
       const isCssMetaphor = labels.every(label => ['metaphore', 'css'].includes(label))
-      const isGoMetaphor = labels.every(label => ['metaphore', 'go'].includes(label))
+      const isGolangMetaphor = labels.every(label => ['metaphore', 'golang'].includes(label))
       const isJavaScriptMetaphor = labels.every(label => ['metaphore', 'javascript'].includes(label))
       const isJavaMetaphor = labels.every(label => ['metaphore', 'java'].includes(label))
       const isMathsMetaphor = labels.every(label => ['metaphore', 'maths'].includes(label))
@@ -160,9 +160,9 @@ module.exports = async (client, context) => {
       if (isCssMetaphor) {
         console.log(`Is css metaphor`)
         createMetaphorFile(client, issueData, context, 'css')
-      } else if (isGoMetaphor) {
-        console.log(`Is go metaphor`)
-        createMetaphorFile(client, issueData, context, 'go')
+      } else if (isGolangMetaphor) {
+        console.log(`Is golang metaphor`)
+        createMetaphorFile(client, issueData, context, 'golang')
       } else if (isJavaScriptMetaphor) {
         console.log(`Is javascript metaphor`)
         createMetaphorFile(client, issueData, context, 'javascript')
