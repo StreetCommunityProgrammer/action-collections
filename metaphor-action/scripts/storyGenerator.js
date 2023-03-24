@@ -14,7 +14,6 @@ const { ghBotUsername, ghBotEmail } = require('./utils/git');
  * @returns {Promise} A Promise that resolves when the metaphor file has been created in the GitHub repository.
  */
 async function createMetaphorFile(issueData, context, category) {
-  const templateFilePath = './templates/stories.txt';
   const metaphorTitle = slugify(issueData.title);
 
   const contentValues = [
@@ -25,12 +24,22 @@ async function createMetaphorFile(issueData, context, category) {
     issueData.body,
   ];
 
-  const replacementResult = await replaceTemplateFile(templateFilePath, contentValues);
+  const storyTemplate = `---
+layout: post
+title: {title}
+author: {author}
+created_at: {created_at}
+language: {language}
+---
+
+{content}`;
+
+  const replacementResult = contentValues.reduce((storyTemplate, placeholder, index) => {
+    return storyTemplate.replace(new RegExp(placeholder, 'g'), values[index]);
+  }, storyTemplate);
   console.log('Replacement result: ' + JSON.stringify(replacementResult, undefined, 2))
 
-  const markdownContent = await fsPromises.readFile(templateFilePath, 'utf-8');
-  const metaphorContent = Base64.encode(markdownContent);
-
+  const metaphorContent = Base64.encode(issueData.body);
   const createContent = await createFileContent({
     owner: context.issue.owner,
     repo: context.issue.repo,
@@ -40,23 +49,6 @@ async function createMetaphorFile(issueData, context, category) {
   });
 
   console.log(`Content Metadata: ${JSON.stringify(createContent, undefined, 2)}`);
-}
-
-/**
- * Replaces template file content with the specified values and returns the result.
- * @async
- * @function replaceTemplateFile
- * @param {string} filePath - The file path of the template file to replace.
- * @param {string[]} contentValues - An array of values to replace the template placeholders with.
- * @returns {Promise<string>} A Promise that resolves with the result of the template replacement operation.
- */
-async function replaceTemplateFile(filePath, contentValues) {
-  const replacementValues = ['{title}', '{author}', '{created_at}', '{language}', '{content}'];
-  return await replace({
-    files: filePath,
-    from: replacementValues,
-    to: contentValues,
-  });
 }
 
 /**
