@@ -1,4 +1,3 @@
-const { Base64 } = require('js-base64');
 const slugify = require('./utils/slugify');
 const { ghBotUsername, ghBotEmail } = require('./utils/git');
 
@@ -43,7 +42,7 @@ language: {language}
     client: client,
     owner: context.issue.owner,
     repo: context.issue.repo,
-    path: `_stories/${category}/${metaphorTitle}.md`,
+    path: `public/collections/stories/${category}/${metaphorTitle}.md`,
     message: `docs(generate): new metaphor from @${issueData.user.login}`,
     content: metaphorContent,
   });
