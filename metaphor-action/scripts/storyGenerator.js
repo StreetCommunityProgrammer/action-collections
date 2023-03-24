@@ -35,6 +35,7 @@ language: {language}
   const replacementResult = contentValues.reduce((storyTemplate, placeholder, index) => {
     return storyTemplate.replace(new RegExp(placeholder, 'g'), contentValues[index]);
   }, storyTemplate);
+  console.log(contentValues);
   console.log(storyTemplate);
   console.log(replacementResult);
   return 0;
