@@ -36,12 +36,9 @@ language: {language}
   const replacedTemplate = placeholders.reduce((template, placeholder, index) => {
     return template.replace(new RegExp(placeholder, 'g'), values[index]);
   }, template);
+  console.log('Replacement result: ' + JSON.stringify(replacedTemplate, undefined, 2))
 
-  console.log(replacedTemplate);
-  return 0;
-  console.log('Replacement result: ' + JSON.stringify(replacementResult, undefined, 2))
-
-  const metaphorContent = Buffer.from(replacementResult).toString('base64');
+  const metaphorContent = Buffer.from(replacedTemplate).toString('base64');
   const createContent = await createFileContent({
     client: client,
     owner: context.issue.owner,
