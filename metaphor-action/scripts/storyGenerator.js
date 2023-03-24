@@ -37,7 +37,7 @@ language: {language}
   }, storyTemplate);
   console.log('Replacement result: ' + JSON.stringify(replacementResult, undefined, 2))
 
-  const metaphorContent = Buffer.from(issueData.body).toString('base64');
+  const metaphorContent = Buffer.from(replacementResult).toString('base64');
   const createContent = await createFileContent({
     client: client,
     owner: context.issue.owner,
