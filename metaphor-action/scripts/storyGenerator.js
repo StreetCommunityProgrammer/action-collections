@@ -90,7 +90,13 @@ module.exports = async (client, context) => {
     })
     const issueData = issue.data
 
-    if (issueData.state === 'closed') {
+    const assignees = issue.data.assignees
+
+    const isReviewerPresence = assignees.some(assignee => {
+      return assignee.login === "darkterminal" || assignee.login === "mkubdev";
+    });
+
+    if (issueData.state === 'closed' && isReviewerPresence) {
       const labels = issueData.labels.map(label => label.name)
 
       // Metaphor Categories
