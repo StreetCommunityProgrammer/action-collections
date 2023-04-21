@@ -52,6 +52,27 @@ language: {language}
 }
 
 /**
+ * Adds labels to a closed issue.
+ *
+ * @param {Object} options - Options for adding labels to the issue.
+ * @param {Object} options.client - The authenticated Octokit REST client.
+ * @param {string} options.owner - The owner of the repository.
+ * @param {string} options.repo - The name of the repository.
+ * @param {number} options.issue_number - The number of the issue to add labels to.
+ * @param {Array} [options.labels] - An array of labels to add to the issue.
+ * @returns {Promise<void>} A Promise that resolves when the labels have been added to the issue.
+ */
+async function addLabelToClosedIssue({ client, owner, repo, issue_number, labels }) {
+  await client.rest.issues.addLabels({
+    owner,
+    repo,
+    issue_number,
+    labels
+  })
+  console.log(`Label added: ${labels.join(', ')}`)
+}
+
+/**
  * Creates or updates a file in a GitHub repository with the specified content.
  * @async
  * @function createFileContent
@@ -146,6 +167,7 @@ module.exports = async (client, context) => {
         console.log(`Is zig metaphor`)
         createMetaphorFile(client, issueData, context, 'zig')
       }
+      addLabelToClosedIssue(client, context.issue.owner, context.issue.repo, context.issue.number, [...labels, 'published'])
     }
   } catch (error) {
     console.log(`Erorr on storyGenerator: ${error}`)
