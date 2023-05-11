@@ -108,68 +108,38 @@ module.exports = async (client, context) => {
       repo: context.issue.repo,
       issue_number: context.issue.number,
     })
-    const issueData = issue.data
 
     const assignees = issue.data.assignees
+    const isReviewerPresence = assignees.some(assignee => ['darkterminal', 'mkubdev'].includes(assignee.login))
+    if (issue.data.state === 'closed' && isReviewerPresence) {
+      const labels = issue.data.labels.map(label => label.name)
 
-    const isReviewerPresence = assignees.some(assignee => {
-      return assignee.login === "darkterminal" || assignee.login === "mkubdev";
-    });
+      const metaphors = [
+        ['css', 'css'],
+        ['golang', 'golang'],
+        ['javascript', 'javascript'],
+        ['java', 'java'],
+        ['maths', 'maths'],
+        ['python', 'python'],
+        ['php', 'php'],
+        ['physics', 'physics'],
+        ['ruby', 'ruby'],
+        ['rust', 'rust'],
+        ['zig', 'zig']
+      ]
 
-    if (issueData.state === 'closed' && isReviewerPresence) {
-      const labels = issueData.labels.map(label => label.name)
+      const isMetaphor = metaphors.some(([category, label]) => labels.every(l => ['metaphore', category].includes(l)))
 
-      // Metaphor Categories
-      const isCssMetaphor = labels.every(label => ['metaphore', 'css'].includes(label))
-      const isGolangMetaphor = labels.every(label => ['metaphore', 'golang'].includes(label))
-      const isJavaScriptMetaphor = labels.every(label => ['metaphore', 'javascript'].includes(label))
-      const isJavaMetaphor = labels.every(label => ['metaphore', 'java'].includes(label))
-      const isMathsMetaphor = labels.every(label => ['metaphore', 'maths'].includes(label))
-      const isPythonMetaphor = labels.every(label => ['metaphore', 'python'].includes(label))
-      const isPhpMetaphor = labels.every(label => ['metaphore', 'php'].includes(label))
-      const isPhysicsMetaphor = labels.every(label => ['metaphore', 'physics'].includes(label))
-      const isRubyMetaphor = labels.every(label => ['metaphore', 'ruby'].includes(label))
-      const isRustMetaphor = labels.every(label => ['metaphore', 'rust'].includes(label))
-      const isZigMetaphor = labels.every(label => ['metaphore', 'zig'].includes(label))
-
-      if (isCssMetaphor) {
-        console.log(`Is css metaphor`)
-        createMetaphorFile(client, issueData, context, 'css')
-      } else if (isGolangMetaphor) {
-        console.log(`Is golang metaphor`)
-        createMetaphorFile(client, issueData, context, 'golang')
-      } else if (isJavaScriptMetaphor) {
-        console.log(`Is javascript metaphor`)
-        createMetaphorFile(client, issueData, context, 'javascript')
-      } else if (isJavaMetaphor) {
-        console.log(`Is java metaphor`)
-        createMetaphorFile(client, issueData, context, 'java')
-      } else if (isMathsMetaphor) {
-        console.log(`Is maths metaphor`)
-        createMetaphorFile(client, issueData, context, 'maths')
-      } else if (isPythonMetaphor) {
-        console.log(`Is python metaphor`)
-        createMetaphorFile(client, issueData, context, 'python')
-      } else if (isPhpMetaphor) {
-        console.log(`Is php metaphor`)
-        createMetaphorFile(client, issueData, context, 'php')
-      } else if (isPhysicsMetaphor) {
-        console.log(`Is physics metaphor`)
-        createMetaphorFile(client, issueData, context, 'physics')
-      } else if (isRubyMetaphor) {
-        console.log(`Is ruby metaphor`)
-        createMetaphorFile(client, issueData, context, 'ruby')
-      } else if (isRustMetaphor) {
-        console.log(`Is rust metaphor`)
-        createMetaphorFile(client, issueData, context, 'rust')
-      } else if (isZigMetaphor) {
-        console.log(`Is zig metaphor`)
-        createMetaphorFile(client, issueData, context, 'zig')
+      if (isMetaphor) {
+        const [category, label] = metaphors.find(([category, label]) => labels.every(l => ['metaphore', category].includes(l)))
+        console.log(`Is ${category} metaphor`)
+        createMetaphorFile(client, issue.data, context, label)
       }
+
       addLabelToClosedIssue(client, context.issue.owner, context.issue.repo, context.issue.number, [...labels, 'published'])
     }
   } catch (error) {
-    console.log(`Erorr on storyGenerator: ${error}`)
+    console.log(`Error on storyGenerator: ${error}`)
     return false
   }
 }
