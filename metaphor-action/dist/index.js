@@ -166,6 +166,7 @@ module.exports = async (client, context) => {
       const labels = issue.data.labels.map(label => label.name)
 
       const metaphors = [
+        ['linux', 'linux'],
         ['cpp', 'cpp'],
         ['css', 'css'],
         ['golang', 'golang'],
