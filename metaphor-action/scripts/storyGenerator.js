@@ -16,8 +16,8 @@ async function createMetaphorFile(client, issueData, context, category) {
 
   const template = `---
 layout: post
-title: {title}
-author: {author}
+title: "{title}"
+author: "{author}"
 created_at: {created_at}
 language: {language}
 ---
